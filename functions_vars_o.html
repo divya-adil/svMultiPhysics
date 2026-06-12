@@ -12,6 +12,23 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  loader: {
+    load: ['[tex]/ams']
+  },
+  tex: {
+    macros: {},
+    packages: ['base','configmacros','ams']
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -75,6 +92,7 @@ $(function() {
 <h3><a id="index_o" name="index_o"></a>- o -</h3><ul>
 <li>odes&#160;:&#160;<a class="el" href="classcep_model_type.html#a5561dc6f1de77d662ee66199a15317b4">cepModelType</a></li>
 <li>ok&#160;:&#160;<a class="el" href="classeq_type.html#a168b70cd9f8b50c649d5dd5d64afadf0">eqType</a></li>
+<li>old&#160;:&#160;<a class="el" href="struct_solution_states.html#aad834638292dec1d605cfcd5898143a7">SolutionStates</a></li>
 <li>ordering&#160;:&#160;<a class="el" href="classmsh_type.html#a0c78a71d1348faa5432b75c48c872fd5">mshType</a></li>
 <li>otnIEN&#160;:&#160;<a class="el" href="classmsh_type.html#a4eae34247ad01296d1a2a5bce7cf243f">mshType</a></li>
 <li>out_files&#160;:&#160;<a class="el" href="classecg_leads_type.html#af77b84a8b3e4444955a642447c278a34">ecgLeadsType</a></li>

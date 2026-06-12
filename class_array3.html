@@ -12,6 +12,23 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  loader: {
+    load: ['[tex]/ams']
+  },
+  tex: {
+    macros: {},
+    packages: ['base','configmacros','ams']
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -191,9 +208,6 @@ static int&#160;</td><td class="memItemRight" valign="bottom"><b>num_allocated</
 <tr class="memitem:a7107c977ddab4554331c1c30598b23df" id="r_a7107c977ddab4554331c1c30598b23df"><td class="memItemLeft" align="right" valign="top"><a id="a7107c977ddab4554331c1c30598b23df" name="a7107c977ddab4554331c1c30598b23df"></a>
 static int&#160;</td><td class="memItemRight" valign="bottom"><b>active</b></td></tr>
 <tr class="separator:a7107c977ddab4554331c1c30598b23df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7b47bf814b4423dd0baa51bd4bb2fca" id="r_ac7b47bf814b4423dd0baa51bd4bb2fca"><td class="memItemLeft" align="right" valign="top"><a id="ac7b47bf814b4423dd0baa51bd4bb2fca" name="ac7b47bf814b4423dd0baa51bd4bb2fca"></a>
-static bool&#160;</td><td class="memItemRight" valign="bottom"><b>show_index_check_message</b></td></tr>
-<tr class="separator:ac7b47bf814b4423dd0baa51bd4bb2fca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a293a71877cb267416a16113d999d0194" id="r_a293a71877cb267416a16113d999d0194"><td class="memItemLeft" align="right" valign="top"><a id="a293a71877cb267416a16113d999d0194" name="a293a71877cb267416a16113d999d0194"></a>
 static double&#160;</td><td class="memItemRight" valign="bottom"><b>memory_in_use</b></td></tr>
 <tr class="separator:a293a71877cb267416a16113d999d0194"><td class="memSeparator" colspan="2">&#160;</td></tr>

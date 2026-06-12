@@ -12,6 +12,23 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript">
+window.MathJax = {
+  options: {
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  loader: {
+    load: ['[tex]/ams']
+  },
+  tex: {
+    macros: {},
+    packages: ['base','configmacros','ams']
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -117,6 +134,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a5561dc6f1de77d662ee66199a15317b4" id="r_a5561dc6f1de77d662ee66199a15317b4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classode_type.html">odeType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcep_model_type.html#a5561dc6f1de77d662ee66199a15317b4">odes</a></td></tr>
 <tr class="memdesc:a5561dc6f1de77d662ee66199a15317b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Time integration options.  <br /></td></tr>
 <tr class="separator:a5561dc6f1de77d662ee66199a15317b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88c28fd3839cb1634a3fa9de77b2e65c" id="r_a88c28fd3839cb1634a3fa9de77b2e65c"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="class_ionic_model.html">IonicModel</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcep_model_type.html#a88c28fd3839cb1634a3fa9de77b2e65c">ionic_model</a></td></tr>
+<tr class="memdesc:a88c28fd3839cb1634a3fa9de77b2e65c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ionic model instance.  <br /></td></tr>
+<tr class="separator:a88c28fd3839cb1634a3fa9de77b2e65c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Cardiac electrophysiology model type. </p>
@@ -198,6 +218,22 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Myocardium zone id, default to epicardium. </p>
+
+</div>
+</div>
+<a id="a88c28fd3839cb1634a3fa9de77b2e65c" name="a88c28fd3839cb1634a3fa9de77b2e65c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88c28fd3839cb1634a3fa9de77b2e65c">&#9670;&#160;</a></span>ionic_model</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;<a class="el" href="class_ionic_model.html">IonicModel</a>&gt; cepModelType::ionic_model</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ionic model instance. </p>
 
 </div>
 </div>
