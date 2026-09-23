@@ -51,6 +51,33 @@ namespace post {
       return F;
     }
 
+    Array<double> velocity_gradient(const Array<double>& Nx, const Array<double>& yl,
+        int nsd, int nNo, int eq_start)
+    {
+      // Velocity gradient needed for viscous stress output.
+      Array<double> vx(nsd, nsd);
+      vx = 0.0;
+      for (int a = 0; a < nNo; a++) {
+        if (nsd == 3) {
+          vx(0,0) = vx(0,0) + Nx(0,a)*yl(eq_start,a);
+          vx(0,1) = vx(0,1) + Nx(1,a)*yl(eq_start,a);
+          vx(0,2) = vx(0,2) + Nx(2,a)*yl(eq_start,a);
+          vx(1,0) = vx(1,0) + Nx(0,a)*yl(eq_start+1,a);
+          vx(1,1) = vx(1,1) + Nx(1,a)*yl(eq_start+1,a);
+          vx(1,2) = vx(1,2) + Nx(2,a)*yl(eq_start+1,a);
+          vx(2,0) = vx(2,0) + Nx(0,a)*yl(eq_start+2,a);
+          vx(2,1) = vx(2,1) + Nx(1,a)*yl(eq_start+2,a);
+          vx(2,2) = vx(2,2) + Nx(2,a)*yl(eq_start+2,a);
+        } else {
+          vx(0,0) = vx(0,0) + Nx(0,a)*yl(eq_start,a);
+          vx(0,1) = vx(0,1) + Nx(1,a)*yl(eq_start,a);
+          vx(1,0) = vx(1,0) + Nx(0,a)*yl(eq_start+1,a);
+          vx(1,1) = vx(1,1) + Nx(1,a)*yl(eq_start+1,a);
+        }
+      }
+      return vx;
+    }
+
   }
 
 void all_post(Simulation* simulation, Array<double>& res, const SolutionStates& solutions,
@@ -1942,6 +1969,34 @@ void tpost(Simulation* simulation, const mshType& lM, const int m, Array<double>
         case OutputNameType::outGrp_mises:
           Array<double> sigma(nsd,nsd);
           Array<double> S(nsd,nsd);
+          Array<double> S0(nsd,nsd);
+          S0 = 0.0;
+          auto vx = velocity_gradient(Nx, yl, nsd, fs.eNoN, i);
+
+          // Interpolate prestress to the current Gauss point.
+          if (com_mod.pS0.size() != 0) {
+            for (int a = 0; a < fs.eNoN; a++) {
+              int Ac = lM.IEN(a,e);
+              if (nsd == 3) {
+                S0(0,0) = S0(0,0) + N(a)*com_mod.pS0(0,Ac);
+                S0(1,1) = S0(1,1) + N(a)*com_mod.pS0(1,Ac);
+                S0(2,2) = S0(2,2) + N(a)*com_mod.pS0(2,Ac);
+                S0(0,1) = S0(0,1) + N(a)*com_mod.pS0(3,Ac);
+                S0(1,2) = S0(1,2) + N(a)*com_mod.pS0(4,Ac);
+                S0(2,0) = S0(2,0) + N(a)*com_mod.pS0(5,Ac);
+              } else {
+                S0(0,0) = S0(0,0) + N(a)*com_mod.pS0(0,Ac);
+                S0(1,1) = S0(1,1) + N(a)*com_mod.pS0(1,Ac);
+                S0(0,1) = S0(0,1) + N(a)*com_mod.pS0(2,Ac);
+              }
+            }
+
+            S0(1,0) = S0(0,1);
+            if (nsd == 3) {
+              S0(2,1) = S0(1,2);
+              S0(0,2) = S0(2,0);
+            }
+          }
 
           // Interpolate the active stress from active stress models to the
           // current Gauss point so that the active contribution is included in
@@ -1993,7 +2048,13 @@ void tpost(Simulation* simulation, const mshType& lM, const int m, Array<double>
             mat_models::compute_pk2cc(com_mod, cep_mod, eq.dmn[cDmn], F, nFn,
                                       fN, ya_g_f, ya_g_s, ya_g_n, S, Dm, Ja);
 
-            // TODO: Add viscous stress
+            Array<double> Svis(nsd,nsd);
+            Array3<double> Kvis_u(nsd*nsd, fs.eNoN, fs.eNoN);
+            Array3<double> Kvis_v(nsd*nsd, fs.eNoN, fs.eNoN);
+            mat_models::compute_visc_stress_and_tangent(eq.dmn[cDmn], fs.eNoN,
+                Nx, vx, F, Svis, Kvis_u, Kvis_v);
+            // Match assembly: elastic + viscous + prestress.
+            S = S + Svis + S0;
 
             // Add pressure
             auto C = mat_mul(transpose(F), F);
@@ -2013,7 +2074,13 @@ void tpost(Simulation* simulation, const mshType& lM, const int m, Array<double>
             mat_models::compute_pk2cc(com_mod, cep_mod, eq.dmn[cDmn], F, nFn,
                                       fN, ya_g_f, ya_g_s, ya_g_n, S, Dm, Ja);
 
-            // TODO: Add viscous stress
+            Array<double> Svis(nsd,nsd);
+            Array3<double> Kvis_u(nsd*nsd, fs.eNoN, fs.eNoN);
+            Array3<double> Kvis_v(nsd*nsd, fs.eNoN, fs.eNoN);
+            mat_models::compute_visc_stress_and_tangent(eq.dmn[cDmn], fs.eNoN,
+                Nx, vx, F, Svis, Kvis_u, Kvis_v);
+            // Match assembly: elastic + viscous + prestress.
+            S = S + Svis + S0;
 
             auto P1 = mat_mul(F, S);
             sigma = mat_mul(P1, transpose(F));
